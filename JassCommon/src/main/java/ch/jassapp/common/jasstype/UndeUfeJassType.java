@@ -103,6 +103,31 @@ public class UndeUfeJassType extends AbstractJassType{
         
         return o1.getOrder() - o2.getOrder();
     }
+
+    @Override
+    public int isCardAllowed(Card cardToPlay, List<Card> alreadyPlayedCards, List<Card> cardsFromPlayer) {
+        if(!cardsFromPlayer.contains(cardToPlay)) {
+            return 3;
+        }
+        
+        if(alreadyPlayedCards.isEmpty()) {
+            return 0;
+        } 
+        
+        boolean hasSameColorCard = false;
+        for(Card cardFromPlayer: cardsFromPlayer) {
+            if(cardFromPlayer.getColor() == playedCardColor) {
+                hasSameColorCard = true;
+                break;
+            }
+        }
+        
+        if(hasSameColorCard && cardToPlay.getColor() != playedCardColor) {
+            return 1;
+        }
+        
+        return 0;
+    }
     
     
 }

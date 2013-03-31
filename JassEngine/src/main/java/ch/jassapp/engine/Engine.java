@@ -55,7 +55,7 @@ public class Engine implements GameEngineObserver {
     }
 
     private int getNextPlayerId(int actualPlayerId) {
-        return (actualPlayerId++) % 4;
+        return (actualPlayerId+1) % 4;
     }
 
     /**
@@ -77,6 +77,7 @@ public class Engine implements GameEngineObserver {
             team0Point = teams.get(0).getTotalPoints();
             team1Point = teams.get(1).getTotalPoints();
             roundId++;
+            System.out.println("Rounds Played: " + roundId + "; Team0: " + getTotalPoints(0) + "; Team1: " + getTotalPoints(1));
         }
 
         if (team0Point > team1Point) {
@@ -148,26 +149,44 @@ public class Engine implements GameEngineObserver {
                         cardAccepted = true;
                     } else {
                         activePlayer.illegalCard(playedCard, errorCode);
-                    }                    
+                    }          
                 }
+                if(i == 0) {
+                    //First Card
+                    jassType.setPlayedCardColor(playedCard.getColor());
+                }
+                
                 cardsPlayedInTurn.add(playedCard);
                 cardsPlayedInRound.add(playedCard);
                 
-                startingPlayer = getNextPlayerId(playerInTurn);
-                for(Player player: players) {
-                    player.turnFinished(cardsPlayedInTurn, startingPlayer);
-                }
+                playerInTurn = getNextPlayerId(playerInTurn);
             }
-            
+                          
             //Set Starting Player
             Collections.sort(cardsPlayedInTurn, jassType);
             startingPlayer = getOwnerOfCard(cardsPlayedInTurn.get(0));
             int teamId = getTeamId(startingPlayer);
             cardsWonByTeam[teamId].addAll(cardsPlayedInTurn);
+            
+            for(Player player: players) {
+                player.turnFinished(cardsPlayedInTurn, startingPlayer);
+            }
         }
 
         private int cardCanBePlayed(Card playedCard, List<Card> cardsPlayedInTurn) {
-            //TODO
+            for(Card card: cardsPlayedInRound) {
+                if(playedCard.equals(card)){
+                    return 1;
+                }
+            }
+            
+            /*
+            for(Card card: cardsPlayedInTurn) {
+                if(playedCard.equals(card)){
+                    return 1;
+                }
+            }
+            * */
             return 0;
         }
         
@@ -191,7 +210,7 @@ public class Engine implements GameEngineObserver {
             if(winnerTeam == 0) {
                 team0Points += 5;
             }
-            int team1Points = cardsWonByTeam[0].CountPoints();
+            int team1Points = cardsWonByTeam[1].CountPoints();
             if(winnerTeam == 1) {
                 team1Points += 5;
             }

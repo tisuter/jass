@@ -32,4 +32,18 @@ public abstract class AbstractJassType implements Comparator<Card>{
   
     protected abstract void setCardValue(List<Card> deck);
     protected abstract void setCardOrder(List<Card> deck);
+    
+    /**
+     * Checks if the Card can be played...
+     * 
+     * 
+     * @param cardToPlay
+     * @param alreadyPlayedCards
+     * @param cardsFromPlayer
+     * @return ErrorCode:
+     * 1. You have to use the correct Color (Exceptions: You are out of this Color, Trumpf)
+     * 2. Not Untertrumpfen (Exceptions: You have no other choice)
+     * 3. You don not have this card in your 'playerCards'
+     */
+    public abstract int isCardAllowed(Card cardToPlay, List<Card> alreadyPlayedCards, List<Card> cardsFromPlayer);
 }

@@ -147,4 +147,56 @@ public class TrumpfJassType extends AbstractJassType{
             } 
         }
     }
+
+    @Override
+    public int isCardAllowed(Card cardToPlay, List<Card> alreadyPlayedCards, List<Card> cardsFromPlayer) {
+        if(!cardsFromPlayer.contains(cardToPlay)) {
+            return 3;
+        }
+        
+        if(alreadyPlayedCards.isEmpty()) {
+            return 0;
+        } 
+        
+        boolean hasSameColorCard = false;
+        for(Card cardFromPlayer: cardsFromPlayer) {
+            if(cardFromPlayer.getColor() == playedCardColor) {
+                if(cardFromPlayer.getColor() != trumpfColor || cardFromPlayer.getType() != Under) {
+                    hasSameColorCard = true;
+                    break;
+                }
+            }
+        }
+        
+        if(hasSameColorCard && cardToPlay.getColor() != playedCardColor && playedCardColor == trumpfColor) {
+            return 1;
+        }
+        
+        
+        if(playedCardColor != trumpfColor && cardToPlay.getColor() == trumpfColor) {
+            //Dont Untertrumpfen
+            int highestTrumpfOrder = -1;
+            for(Card card: alreadyPlayedCards) {
+                if(card.getColor() == trumpfColor) {
+                    if(card.getOrder() > highestTrumpfOrder) {
+                        highestTrumpfOrder = card.getOrder();
+                    }
+                }
+            }
+            
+            boolean hasDifferentCard = false;
+            for(Card card: cardsFromPlayer) {
+                if(card.getColor() != trumpfColor) {
+                    hasDifferentCard = true;
+                    break;
+                }
+            }
+            
+            if(hasDifferentCard && highestTrumpfOrder > cardToPlay.getOrder()) {
+                return 2;
+            }
+        }
+        
+        return 0;
+    }
 }
