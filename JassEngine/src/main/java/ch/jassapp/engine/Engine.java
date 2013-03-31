@@ -77,7 +77,6 @@ public class Engine implements GameEngineObserver {
             team0Point = teams.get(0).getTotalPoints();
             team1Point = teams.get(1).getTotalPoints();
             roundId++;
-            System.out.println("Rounds Played: " + roundId + "; Team0: " + getTotalPoints(0) + "; Team1: " + getTotalPoints(1));
         }
 
         if (team0Point > team1Point) {
@@ -114,12 +113,14 @@ public class Engine implements GameEngineObserver {
         
         private void playRound() {
             initRound();
+            System.out.println("Round started: " + jassType.toString());
             
             for(int turnId = 0; turnId<9; turnId++){
                 playTurn();
             } 
             
             updatePoints();
+            System.out.println("Rounds Played: " + roundId + "; Team0: " + getTotalPoints(0) + "; Team1: " + getTotalPoints(1));
         }
         
         private void initRound() {
@@ -135,20 +136,20 @@ public class Engine implements GameEngineObserver {
         } 
 
         private void playTurn() {
-            int playerInTurn = startingPlayer;
+            int playerInTurnId = startingPlayer;
             List<Card> cardsPlayedInTurn = new ArrayList<Card>();
             for(int i = 0; i<4; i++) {
-                Player activePlayer = players.get(playerInTurn);
+                Player playerInTurn = players.get(playerInTurnId);
                 boolean cardAccepted = false;
                 Card playedCard = null;
                 while(!cardAccepted) {
                     //TODO: UGLY Error Code... 
-                    playedCard = activePlayer.playCardInTurn(cardsPlayedInTurn);
-                    int errorCode = cardCanBePlayed(playedCard, cardsPlayedInTurn);
+                    playedCard = playerInTurn.playCardInTurn(cardsPlayedInTurn);
+                    int errorCode = cardCanBePlayed(playedCard, cardsPlayedInTurn, playerCards[playerInTurnId]);
                     if(errorCode == 0) {
                         cardAccepted = true;
                     } else {
-                        activePlayer.illegalCard(playedCard, errorCode);
+                        playerInTurn.illegalCard(playedCard, errorCode);
                     }          
                 }
                 if(i == 0) {
@@ -159,7 +160,7 @@ public class Engine implements GameEngineObserver {
                 cardsPlayedInTurn.add(playedCard);
                 cardsPlayedInRound.add(playedCard);
                 
-                playerInTurn = getNextPlayerId(playerInTurn);
+                playerInTurnId = getNextPlayerId(playerInTurnId);
             }
                           
             //Set Starting Player
@@ -173,21 +174,21 @@ public class Engine implements GameEngineObserver {
             }
         }
 
-        private int cardCanBePlayed(Card playedCard, List<Card> cardsPlayedInTurn) {
-            for(Card card: cardsPlayedInRound) {
-                if(playedCard.equals(card)){
-                    return 1;
+        private int cardCanBePlayed(Card playedCard, List<Card> cardsPlayedInTurn, List<Card> playerCards) {
+            List<Card> unusedPlayerCards = new ArrayList<Card>();
+            for(Card playerCard: playerCards) {
+                if(!cardsPlayedInRound.contains(playerCard)) {
+                    unusedPlayerCards.add(playerCard);
                 }
             }
             
-            /*
-            for(Card card: cardsPlayedInTurn) {
+            for(Card card: cardsPlayedInRound) {
                 if(playedCard.equals(card)){
                     return 1;
-                }
+                }                
             }
-            * */
-            return 0;
+            
+            return jassType.isCardAllowed(playedCard, cardsPlayedInTurn, unusedPlayerCards);
         }
         
         private int getOwnerOfCard(Card card) {

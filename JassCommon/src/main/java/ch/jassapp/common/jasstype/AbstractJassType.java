@@ -46,4 +46,7 @@ public abstract class AbstractJassType implements Comparator<Card>{
      * 3. You don not have this card in your 'playerCards'
      */
     public abstract int isCardAllowed(Card cardToPlay, List<Card> alreadyPlayedCards, List<Card> cardsFromPlayer);
+    
+    @Override
+    public abstract String toString();
 }

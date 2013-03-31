@@ -188,7 +188,6 @@ public class JassTypeTest extends TestCase {
         myCards.add(new Card(Color.Rose, Type.Under));
         trumpf.setCardOrder(myCards);
         assertEquals(trumpf.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards), 0);
-        
     }
     
 }

@@ -199,4 +199,9 @@ public class TrumpfJassType extends AbstractJassType{
         
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return "Trumpf (" + trumpfColor + ")";
+    }
 }
