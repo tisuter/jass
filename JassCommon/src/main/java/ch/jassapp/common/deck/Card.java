@@ -4,8 +4,6 @@
  */
 package ch.jassapp.common.deck;
 
-import ch.jassapp.common.gameMode.GameMode;
-
 /**
  *
  * @author tisuter
@@ -15,6 +13,9 @@ public class Card implements Comparable<Card> {
     private final Color color;
     private final Type type;
 
+    private int value;
+    private int order;
+    
     public Card(Color color, Type type) {
         this.color = color;
         this.type = type;
@@ -42,22 +43,22 @@ public class Card implements Comparable<Card> {
         return type.compareTo(o.type);
     }
 
-    public int getValue(GameMode gameMode) {
-        switch (gameMode.getMode()) {
-            case Obe:
-                return type.getObeValue();
-            case Unde:
-                return type.getUndeValue();
-            default:
-                if(gameMode.getTrumpfColor() == color) {
-                    return type.getTrumpfValue();
-                } else {
-                    return type.getNichtTrumpfValue();
-                }
-        }
-
+    public int getValue() {
+        return value;
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

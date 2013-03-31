@@ -5,7 +5,6 @@
 
 package ch.jassapp.common.deck;
 
-import ch.jassapp.common.gameMode.GameMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +23,15 @@ public class CardCollection {
         collectedCards.add(card);
     }
     
-    public int CountPoints(GameMode mode) {
+    public int CountPoints() {
         int points = 0;
         for(Card card: collectedCards) {
-            points += card.getValue(mode);
+            points += card.getValue();
         }
         return points;
+    }
+
+    public List<Card> getCards() {
+        return collectedCards;
     }
 }

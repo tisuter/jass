@@ -2,8 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.jassapp.common.deck;
+package ch.jassapp.engine.deck;
 
+import ch.jassapp.common.deck.Card;
+import ch.jassapp.common.deck.Color;
+import ch.jassapp.common.deck.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -2,13 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.jassapp.common.gameMode;
+package ch.jassapp.common.jasstype;
 
+import ch.jassapp.common.jasstype.ObeAbeJassType;
+import ch.jassapp.common.jasstype.TrumpfJassType;
+import ch.jassapp.common.jasstype.AbstractJassType;
+import ch.jassapp.common.jasstype.UndeUfeJassType;
 import ch.jassapp.common.deck.Card;
 import ch.jassapp.common.deck.Color;
 import ch.jassapp.common.deck.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import junit.framework.TestCase;
@@ -17,15 +20,15 @@ import junit.framework.TestCase;
  *
  * @author tisuter
  */
-public class CardComparatorTest extends TestCase {
+public class JassTypeTest extends TestCase {
     
-    public CardComparatorTest(String testName) {
+    public JassTypeTest(String testName) {
         super(testName);
     }
     
     public void testObeCardComparator() {
         System.out.println("testObeCardComparator");
-        CardComparator comparator = new ObeCardComparator();
+        AbstractJassType comparator = new ObeAbeJassType();
 
         comparator.setPlayedCardColor(Color.Schelle);
         List<Card> cards= new ArrayList<Card>();
@@ -33,7 +36,7 @@ public class CardComparatorTest extends TestCase {
         cards.add(new Card(Color.Schelle, Type.Sechsi));
         cards.add(new Card(Color.Rose, Type.Ass));
         cards.add(new Card(Color.Rose, Type.Ober));
-        
+        comparator.initDeck(cards);
         Collections.sort(cards, comparator);
         assertEquals(cards.get(0), new Card(Color.Schelle, Type.Sechsi));
         
@@ -42,14 +45,14 @@ public class CardComparatorTest extends TestCase {
         cards.add(new Card(Color.Schelle, Type.Sechsi));
         cards.add(new Card(Color.Schelle, Type.Ass));
         cards.add(new Card(Color.Schelle, Type.Ober));
-        
+        comparator.initDeck(cards);
         Collections.sort(cards, comparator);
         assertEquals(cards.get(0), new Card(Color.Schelle, Type.Ass));
     }
     
     public void testUndeCardComparator() {
         System.out.println("testUndeCardComparator");
-        CardComparator comparator = new UndeCardComparator();
+        AbstractJassType comparator = new UndeUfeJassType();
 
         comparator.setPlayedCardColor(Color.Schelle);
         List<Card> cards= new ArrayList<Card>();
@@ -57,7 +60,7 @@ public class CardComparatorTest extends TestCase {
         cards.add(new Card(Color.Schelle, Type.Sechsi));
         cards.add(new Card(Color.Rose, Type.Ass));
         cards.add(new Card(Color.Rose, Type.Ober));
-        
+        comparator.initDeck(cards);
         Collections.sort(cards, comparator);
         assertEquals(cards.get(0), new Card(Color.Schelle, Type.Sechsi));
         
@@ -66,15 +69,14 @@ public class CardComparatorTest extends TestCase {
         cards.add(new Card(Color.Schelle, Type.Sechsi));
         cards.add(new Card(Color.Schelle, Type.Ass));
         cards.add(new Card(Color.Schelle, Type.Ober));
-        
+        comparator.initDeck(cards);
         Collections.sort(cards, comparator);
         assertEquals(cards.get(0), new Card(Color.Schelle, Type.Sechsi));
     }
     
     public void testTrumpfCardComparator() {
         System.out.println("testTrumpfCardComparator");
-        CardComparator comparator = new TrumpfCardComparator();
-        ((TrumpfCardComparator)comparator).setTrumpfColor(Color.Schelle);
+        AbstractJassType comparator = new TrumpfJassType(Color.Schelle);
         comparator.setPlayedCardColor(Color.Rose);
         
         List<Card> cards= new ArrayList<Card>();
@@ -82,6 +84,7 @@ public class CardComparatorTest extends TestCase {
         cards.add(new Card(Color.Schelle, Type.Sechsi));
         cards.add(new Card(Color.Rose, Type.Ass));
         cards.add(new Card(Color.Rose, Type.Ober));
+        comparator.initDeck(cards);
         Collections.sort(cards, comparator);
         assertEquals(cards.get(0), new Card(Color.Schelle, Type.Sechsi));
         
@@ -90,6 +93,7 @@ public class CardComparatorTest extends TestCase {
         cards.add(new Card(Color.Rose, Type.Sechsi));
         cards.add(new Card(Color.Rose, Type.Ass));
         cards.add(new Card(Color.Rose, Type.Ober));
+        comparator.initDeck(cards);
         Collections.sort(cards, comparator);
         assertEquals(cards.get(0), new Card(Color.Rose, Type.Ass));
         
@@ -98,7 +102,7 @@ public class CardComparatorTest extends TestCase {
         cards.add(new Card(Color.Schelle, Type.Sechsi));
         cards.add(new Card(Color.Schelle, Type.Ass));
         cards.add(new Card(Color.Schelle, Type.Ober));
-        
+        comparator.initDeck(cards);
         Collections.sort(cards, comparator);
         assertEquals(cards.get(0), new Card(Color.Schelle, Type.Under));
         
@@ -107,7 +111,7 @@ public class CardComparatorTest extends TestCase {
         cards.add(new Card(Color.Schelle, Type.Nueni));
         cards.add(new Card(Color.Schelle, Type.Ass));
         cards.add(new Card(Color.Schelle, Type.Ober));
-        
+        comparator.initDeck(cards);
         Collections.sort(cards, comparator);
         assertEquals(cards.get(0), new Card(Color.Schelle, Type.Nueni));
         
@@ -116,7 +120,7 @@ public class CardComparatorTest extends TestCase {
         cards.add(new Card(Color.Schelle, Type.Sechsi));
         cards.add(new Card(Color.Schelle, Type.Ass));
         cards.add(new Card(Color.Schelle, Type.Ober));
-        
+        comparator.initDeck(cards);
         Collections.sort(cards, comparator);
         assertEquals(cards.get(0), new Card(Color.Schelle, Type.Ass));
     }

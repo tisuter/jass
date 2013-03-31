@@ -1,4 +1,4 @@
-package ch.jassapp.engine.jassengine;
+package ch.jassapp.gui;
 
 /**
  * Hello world!

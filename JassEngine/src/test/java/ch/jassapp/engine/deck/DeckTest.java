@@ -2,14 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.jassapp.common.deck;
+package ch.jassapp.engine.deck;
 
 import ch.jassapp.common.deck.Card;
-import ch.jassapp.common.deck.Deck;
-import ch.jassapp.common.gameMode.GameMode;
-import ch.jassapp.common.gameMode.Modes;
+import ch.jassapp.common.deck.CardCollection;
+import ch.jassapp.common.deck.Color;
+import ch.jassapp.common.jasstype.AbstractJassType;
+import ch.jassapp.common.jasstype.ObeAbeJassType;
+import ch.jassapp.common.jasstype.TrumpfJassType;
+import ch.jassapp.common.jasstype.UndeUfeJassType;
 import java.util.ArrayList;
 import java.util.List;
+import static junit.framework.Assert.assertEquals;
 import junit.framework.TestCase;
 
 /**
@@ -95,14 +99,29 @@ public class DeckTest extends TestCase {
             }
         }
     
-        assertEquals(collection.CountPoints(new GameMode(Modes.Unde, Color.Rose)), 152);
-        assertEquals(collection.CountPoints(new GameMode(Modes.Obe, Color.Rose)), 152);
-        assertEquals(collection.CountPoints(new GameMode(Modes.Trumpf, Color.Rose)), 152);
-        assertEquals(collection.CountPoints(new GameMode(Modes.Trumpf, Color.Eichle)), 152);
-        assertEquals(collection.CountPoints(new GameMode(Modes.Trumpf, Color.Schelle)), 152);
-        assertEquals(collection.CountPoints(new GameMode(Modes.Trumpf, Color.Schilte)), 152);
+        AbstractJassType jassType = new ObeAbeJassType();
+        jassType.initDeck(collection.getCards());
+        assertEquals(collection.CountPoints(), 152);
         
+        jassType = new UndeUfeJassType();
+        jassType.initDeck(collection.getCards());
+        assertEquals(collection.CountPoints(), 152);
         
+        jassType = new TrumpfJassType(Color.Rose);
+        jassType.initDeck(collection.getCards());
+        assertEquals(collection.CountPoints(), 152);
+        
+        jassType = new TrumpfJassType(Color.Eichle);
+        jassType.initDeck(collection.getCards());
+        assertEquals(collection.CountPoints(), 152);
+        
+        jassType = new TrumpfJassType(Color.Schelle);
+        jassType.initDeck(collection.getCards());
+        assertEquals(collection.CountPoints(), 152);
+        
+        jassType = new TrumpfJassType(Color.Schilte);
+        jassType.initDeck(collection.getCards());
+        assertEquals(collection.CountPoints(), 152);
     }
     
     
