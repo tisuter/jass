@@ -4,10 +4,6 @@
  */
 package ch.jassapp.common.jasstype;
 
-import ch.jassapp.common.jasstype.ObeAbeJassType;
-import ch.jassapp.common.jasstype.TrumpfJassType;
-import ch.jassapp.common.jasstype.AbstractJassType;
-import ch.jassapp.common.jasstype.UndeUfeJassType;
 import ch.jassapp.common.deck.Card;
 import ch.jassapp.common.deck.Color;
 import ch.jassapp.common.deck.Type;

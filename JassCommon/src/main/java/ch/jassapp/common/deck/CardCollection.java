@@ -23,6 +23,10 @@ public class CardCollection {
         collectedCards.add(card);
     }
     
+    public void addAll(List<Card> cards) {
+        collectedCards.addAll(cards);
+    }
+    
     public int CountPoints() {
         int points = 0;
         for(Card card: collectedCards) {
@@ -34,4 +38,6 @@ public class CardCollection {
     public List<Card> getCards() {
         return collectedCards;
     }
+    
+    
 }
