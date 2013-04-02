@@ -6,6 +6,7 @@ package ch.jassapp.common.jasstype;
 
 import ch.jassapp.common.deck.Card;
 import ch.jassapp.common.deck.Color;
+import ch.jassapp.common.player.JassException;
 import java.util.Comparator;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public abstract class AbstractJassType implements Comparator<Card>{
      * 2. Not Untertrumpfen (Exceptions: You have no other choice)
      * 3. You don not have this card in your 'playerCards'
      */
-    public abstract int isCardAllowed(Card cardToPlay, List<Card> alreadyPlayedCards, List<Card> cardsFromPlayer);
+    public abstract void isCardAllowed(Card cardToPlay, List<Card> alreadyPlayedCards, List<Card> cardsFromPlayer) throws JassException;
     
     @Override
     public abstract String toString();

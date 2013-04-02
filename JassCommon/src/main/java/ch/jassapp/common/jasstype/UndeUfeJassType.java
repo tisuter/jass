@@ -14,6 +14,9 @@ import static ch.jassapp.common.deck.Type.Ober;
 import static ch.jassapp.common.deck.Type.Sechsi;
 import static ch.jassapp.common.deck.Type.Sibni;
 import static ch.jassapp.common.deck.Type.Under;
+import ch.jassapp.common.player.CharteIschErfundeException;
+import ch.jassapp.common.player.JassException;
+import ch.jassapp.common.player.NedFarbeException;
 import java.util.List;
 
 /**
@@ -105,13 +108,13 @@ public class UndeUfeJassType extends AbstractJassType{
     }
 
     @Override
-    public int isCardAllowed(Card cardToPlay, List<Card> alreadyPlayedCards, List<Card> cardsFromPlayer) {
+    public void isCardAllowed(Card cardToPlay, List<Card> alreadyPlayedCards, List<Card> cardsFromPlayer) throws JassException{
         if(!cardsFromPlayer.contains(cardToPlay)) {
-            return 3;
+            throw new CharteIschErfundeException();
         }
         
         if(alreadyPlayedCards.isEmpty()) {
-            return 0;
+            return;
         } 
         
         boolean hasSameColorCard = false;
@@ -123,10 +126,8 @@ public class UndeUfeJassType extends AbstractJassType{
         }
         
         if(hasSameColorCard && cardToPlay.getColor() != playedCardColor) {
-            return 1;
+            throw new NedFarbeException();
         }
-        
-        return 0;
     }
 
     @Override

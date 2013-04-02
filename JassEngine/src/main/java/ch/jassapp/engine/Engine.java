@@ -8,6 +8,8 @@ import ch.jassapp.common.deck.Card;
 import ch.jassapp.common.deck.CardCollection;
 import ch.jassapp.common.gameengine.GameEngineObserver;
 import ch.jassapp.common.jasstype.AbstractJassType;
+import ch.jassapp.common.player.JassException;
+import ch.jassapp.common.player.NedFarbeException;
 import ch.jassapp.common.player.Player;
 import ch.jassapp.engine.deck.Deck;
 import java.util.ArrayList;
@@ -145,12 +147,12 @@ public class Engine implements GameEngineObserver {
                 while(!cardAccepted) {
                     //TODO: UGLY Error Code... 
                     playedCard = playerInTurn.playCardInTurn(cardsPlayedInTurn);
-                    int errorCode = cardCanBePlayed(playedCard, cardsPlayedInTurn, playerCards[playerInTurnId]);
-                    if(errorCode == 0) {
+                    try {
+                        cardCanBePlayed(playedCard, cardsPlayedInTurn, playerCards[playerInTurnId]);
                         cardAccepted = true;
-                    } else {
-                        playerInTurn.illegalCard(playedCard, errorCode);
-                    }          
+                    } catch(JassException ex){
+                        playerInTurn.illegalCard(playedCard, ex);
+                    }
                 }
                 if(i == 0) {
                     //First Card
@@ -174,7 +176,7 @@ public class Engine implements GameEngineObserver {
             }
         }
 
-        private int cardCanBePlayed(Card playedCard, List<Card> cardsPlayedInTurn, List<Card> playerCards) {
+        private void cardCanBePlayed(Card playedCard, List<Card> cardsPlayedInTurn, List<Card> playerCards) throws JassException {
             List<Card> unusedPlayerCards = new ArrayList<Card>();
             for(Card playerCard: playerCards) {
                 if(!cardsPlayedInRound.contains(playerCard)) {
@@ -184,11 +186,11 @@ public class Engine implements GameEngineObserver {
             
             for(Card card: cardsPlayedInRound) {
                 if(playedCard.equals(card)){
-                    return 1;
+                    throw new NedFarbeException();
                 }                
             }
             
-            return jassType.isCardAllowed(playedCard, cardsPlayedInTurn, unusedPlayerCards);
+            jassType.isCardAllowed(playedCard, cardsPlayedInTurn, unusedPlayerCards);
         }
         
         private int getOwnerOfCard(Card card) {

@@ -7,6 +7,10 @@ package ch.jassapp.common.jasstype;
 import ch.jassapp.common.deck.Card;
 import ch.jassapp.common.deck.Color;
 import ch.jassapp.common.deck.Type;
+import ch.jassapp.common.player.CharteIschErfundeException;
+import ch.jassapp.common.player.JassException;
+import ch.jassapp.common.player.NedFarbeException;
+import ch.jassapp.common.player.UntertrumpfenException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -122,7 +126,7 @@ public class JassTypeTest extends TestCase {
         assertEquals(cards.get(0), new Card(Color.Schelle, Type.Ass));
     }
     
-    public void testAllowCardToPlay() {
+    public void testAllowCardToPlay() throws JassException {
         System.out.println("testAllowCardToPlay");
         
         
@@ -131,44 +135,106 @@ public class JassTypeTest extends TestCase {
         AbstractJassType trumpf = new TrumpfJassType(Color.Rose);
 
         List<Card> alreadyPlayedCards= new ArrayList<Card>();
-        assertEquals(obeAbe.isCardAllowed(new Card(Color.Rose, Type.Under), alreadyPlayedCards, new ArrayList<Card>()), 3);
-        assertEquals(undeUfe.isCardAllowed(new Card(Color.Rose, Type.Under), alreadyPlayedCards, new ArrayList<Card>()), 3);
-        assertEquals(trumpf.isCardAllowed(new Card(Color.Rose, Type.Under), alreadyPlayedCards, new ArrayList<Card>()), 3);
         
+        boolean error;
+        try{
+            error = false;
+            obeAbe.isCardAllowed(new Card(Color.Rose, Type.Under), alreadyPlayedCards, new ArrayList<Card>());
+            fail("No Exception happened");
+        } catch (CharteIschErfundeException ex) {
+            error = true;
+        }
+        assertTrue(error);
+        
+        
+        try{
+            error = false;
+            undeUfe.isCardAllowed(new Card(Color.Rose, Type.Under), alreadyPlayedCards, new ArrayList<Card>());
+            fail("No Exception happened");
+        } catch (CharteIschErfundeException ex) {
+            error = true;
+        }
+        assertTrue(error);
+
+        try{
+            error = false;
+            trumpf.isCardAllowed(new Card(Color.Rose, Type.Under), alreadyPlayedCards, new ArrayList<Card>());
+            fail("No Exception happened");
+        } catch (CharteIschErfundeException ex) {
+            error = true;
+        }
+        assertTrue(error);
+
         List<Card> myCards = new ArrayList<Card>();
         myCards.add(new Card(Color.Rose, Type.Ober));
-                
-        assertEquals(obeAbe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
-        assertEquals(undeUfe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
-        assertEquals(trumpf.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
+        
+        try {
+            obeAbe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+            undeUfe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+            trumpf.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+        } catch(JassException ex) {
+            fail("No exception should occur...");
+        }
         
         undeUfe.setPlayedCardColor(Color.Rose);
         obeAbe.setPlayedCardColor(Color.Rose);
         trumpf.setPlayedCardColor(Color.Rose);
         alreadyPlayedCards.add(new Card(Color.Rose, Type.Achti));
         
-        assertEquals(obeAbe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
-        assertEquals(undeUfe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
-        assertEquals(trumpf.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
-        
+        try {
+            obeAbe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+            undeUfe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+            trumpf.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+        } catch(JassException ex) {
+            fail("No exception should occur...");
+        }
         myCards.add(new Card(Color.Schelle, Type.Under));
-        assertEquals(obeAbe.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards), 1);
-        assertEquals(undeUfe.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards), 1);
-        assertEquals(trumpf.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards), 1);
+        
+        try{
+            error = false;
+            obeAbe.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards);
+            fail("No Exception happened");
+        } catch (NedFarbeException ex) {
+            error = true;
+        }
+        assertTrue(error);
+        try{
+            error = false;
+            undeUfe.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards);
+            fail("No Exception happened");
+        } catch (NedFarbeException ex) {
+            error = true;
+        }
+        assertTrue(error);
+        try{
+            error = false;
+            trumpf.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards);
+            fail("No Exception happened");
+        } catch (NedFarbeException ex) {
+            error = true;
+        }
+        assertTrue(error);
         
         myCards.remove(0);
-        assertEquals(obeAbe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
-        assertEquals(undeUfe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
-        assertEquals(trumpf.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
-        
-        
+        try {
+            obeAbe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+            undeUfe.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+            trumpf.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+        } catch(JassException ex) {
+            fail("No exception should occur...");
+        }
         //Buur mus mer ned Spiele...
         trumpf.setPlayedCardColor(Color.Rose);
         myCards.clear();
         myCards.add(new Card(Color.Schelle, Type.Under));
         myCards.add(new Card(Color.Rose, Type.Under));
-        assertEquals(trumpf.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
-        assertEquals(trumpf.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards), 0);
+
+        try {
+            trumpf.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+            trumpf.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards);
+        } catch(JassException ex) {
+            fail("No exception should occur...");
+        }
         
         //Nicht Untertrumpfen...
         trumpf.setPlayedCardColor(Color.Schelle);
@@ -181,13 +247,29 @@ public class JassTypeTest extends TestCase {
         myCards.add(new Card(Color.Rose, Type.Banner));
         trumpf.setCardOrder(myCards);
         trumpf.setCardOrder(alreadyPlayedCards);
-        assertEquals(trumpf.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards), 2);
-        myCards.remove(0);
-        assertEquals(trumpf.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards), 0);
         
+        try{
+            error = false;
+            trumpf.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards);
+            fail("No Exception happened");
+        } catch (UntertrumpfenException ex) {
+            error = true;
+        }
+        assertTrue(error);
+
+        myCards.remove(0);
+        try {
+            trumpf.isCardAllowed(myCards.get(0), alreadyPlayedCards, myCards);
+        } catch(JassException ex) {
+            fail("No exception should occur...");
+        }
         myCards.add(new Card(Color.Rose, Type.Under));
         trumpf.setCardOrder(myCards);
-        assertEquals(trumpf.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards), 0);
+        try {
+            trumpf.isCardAllowed(myCards.get(1), alreadyPlayedCards, myCards);
+        } catch(JassException ex) {
+            fail("No exception should occur...");
+        }       
     }
     
 }
