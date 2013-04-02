@@ -1,4 +1,4 @@
 jass
 ====
 
-Endlich, ein guter Jass Engine
+Endlich, eine gute Jass Engine & Gegner
