@@ -62,15 +62,18 @@ public class Engine implements GameEngineObserver {
 
     /**
      *
-     * @param maxPoints
+     * @param numberOfRound
      * @return Team which has won
      */
-    public int playUntilMaxPointsReached(int maxPoints) {
+    public void play(int numberOfRound) {
         int startingPlayer = 0;
         int team0Point = teams.get(0).getTotalPoints();
         int team1Point = teams.get(1).getTotalPoints();
         int roundId = 0;
-        while (team0Point < maxPoints && team1Point < maxPoints) {
+        
+        System.out.println("Jass starts. Team0: " + teams.get(0) + "; Team1: "+ teams.get(1));
+        
+        while (roundId < numberOfRound) {
 
             RoundManager roundManager = new RoundManager(roundId, startingPlayer);
             roundManager.playRound();
@@ -81,11 +84,7 @@ public class Engine implements GameEngineObserver {
             roundId++;
         }
 
-        if (team0Point > team1Point) {
-            return 0;
-        } else {
-            return 1;
-        }
+        System.out.println("Team 0: " + team0Point + "; Team 1: " + team1Point);
     }
 
     private class RoundManager {

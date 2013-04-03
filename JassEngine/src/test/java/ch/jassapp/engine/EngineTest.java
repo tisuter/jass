@@ -23,7 +23,7 @@ import junit.framework.TestCase;
  */
 public class EngineTest extends TestCase {
 
-    private static final int TOTAL_POINTS = 10000;
+    private static final int ROUNDS = 250;
     
     public EngineTest(String testName) {
         super(testName);
@@ -50,16 +50,8 @@ public class EngineTest extends TestCase {
         
         Engine engine = new Engine(players);
         
-        engine.playUntilMaxPointsReached(TOTAL_POINTS);
-        
-        if(engine.getTotalPoints(0)<TOTAL_POINTS) {
-            if(engine.getTotalPoints(1)<TOTAL_POINTS) {
-                fail("No Team has the Total Points!");
-            }
-        }
-        
+        engine.play(ROUNDS);      
         assertEquals((engine.getTotalPoints(0) + engine.getTotalPoints(1)) % 157, 0);
-        
     }
 
     private class MockPlayer implements Player {

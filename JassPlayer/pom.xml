@@ -2,12 +2,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.mycompany</groupId>
-  <artifactId>JassGUI</artifactId>
+  <groupId>ch.jassapp.player</groupId>
+  <artifactId>JassPlayer</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>JassGUI</name>
+  <name>JassPlayer</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -24,16 +24,6 @@
     <dependency>
       <groupId>ch.jassapp.common</groupId>
       <artifactId>JassCommon</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>ch.jassapp.engine</groupId>
-      <artifactId>JassEngine</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>ch.jassapp.player</groupId>
-      <artifactId>JassPlayer</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>

@@ -8,6 +8,11 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        System.out.println( "Load" );
+        
+        JassAppStarter start = new JassAppStarter("jassapp.config");
+        
+        start.start();
+
     }
 }

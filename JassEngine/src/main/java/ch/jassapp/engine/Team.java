@@ -4,7 +4,6 @@
  */
 package ch.jassapp.engine;
 
-import ch.jassapp.common.deck.Card;
 import ch.jassapp.common.player.Player;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +42,11 @@ public class Team {
 
     public void addPoints(int points) {
         pointsPerRound.add(points);
+    }
+
+    @Override
+    public String toString() {
+        return player1 + " & " + player2;
     }
     
 }

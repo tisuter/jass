@@ -32,4 +32,11 @@ public interface Player {
     public void illegalCard(Card playedCars, JassException reason);
     public void turnFinished(List<Card> cardsPlayed, int wonByPlayer);   
     public void roundFinished(int pointMadeByTeam);
+    
+    /**
+     * 
+     * @return Name of the Player
+     */
+    @Override
+    public String toString();
 }
