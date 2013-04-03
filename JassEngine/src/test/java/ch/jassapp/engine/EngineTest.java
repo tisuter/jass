@@ -63,7 +63,12 @@ public class EngineTest extends TestCase {
         public void init(int playerID, GameEngineObserver gameEngineObserver) {
         }
 
-        public AbstractJassType selectJassTypeForRound() {
+        public AbstractJassType selectJassTypeForRound(boolean gschobe) {
+            
+            if(!gschobe) {
+                return null;
+            }
+            
             switch (roundId % 6) {
                 case 0:
                     return new ObeAbeJassType();

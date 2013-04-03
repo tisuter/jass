@@ -128,7 +128,12 @@ public class Engine implements GameEngineObserver {
             deck.shuffle();
             deck.giveCards(playerCards);
             
-            jassType = players.get(startingPlayer).selectJassTypeForRound();
+            jassType = players.get(startingPlayer).selectJassTypeForRound(true);
+            while(jassType == null) {
+                int partner = getPartner(startingPlayer);
+                jassType = players.get(partner).selectJassTypeForRound(false);
+            }
+            
             jassType.initDeck(deck.getCards());
             
             for(int i = 0; i<4; i++) {
@@ -224,6 +229,11 @@ public class Engine implements GameEngineObserver {
             players.get(1).roundFinished(team1Points);
             players.get(2).roundFinished(team0Points);
             players.get(3).roundFinished(team1Points);
+        }
+
+        private int getPartner(int startingPlayer) {
+            int temp = getNextPlayerId(startingPlayer);
+            return getNextPlayerId(temp);
         }
     }
 }

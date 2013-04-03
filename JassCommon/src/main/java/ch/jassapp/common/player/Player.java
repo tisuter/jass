@@ -16,7 +16,12 @@ import java.util.List;
 public interface Player {
     public void init(int playerID, GameEngineObserver gameEngineObserver);
         
-    public AbstractJassType selectJassTypeForRound();
+    /**
+     * JassType can be selected, therefore one implementation of JassType has to be created
+     * @param gschobe if gschobe is false, then NULL can be returned and the partner can select.
+     * @return the selected JassType / NULL if the partner has to select
+     */
+    public AbstractJassType selectJassTypeForRound(boolean gschobe);
     public void newRound(int roundID, List<Card> playerCards, AbstractJassType selectedJassType);
     
     public Card playCardInTurn(List<Card> alreadyPlayedCars);

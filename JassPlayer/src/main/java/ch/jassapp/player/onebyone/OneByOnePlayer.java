@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.jassapp.player.random;
+package ch.jassapp.player.onebyone;
 
+import ch.jassapp.player.random.*;
 import ch.jassapp.common.deck.Card;
 import ch.jassapp.common.deck.Color;
 import ch.jassapp.common.gameengine.GameEngineObserver;
@@ -13,32 +14,24 @@ import ch.jassapp.common.jasstype.TrumpfJassType;
 import ch.jassapp.common.jasstype.UndeUfeJassType;
 import ch.jassapp.common.player.JassException;
 import ch.jassapp.common.player.Player;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
  * @author tisuter
  */
-public class RandomPlayer implements Player {
+public class OneByOnePlayer implements Player {
 
+    private int roundId = 0;
+    private int playerCard = 0;
     private List<Card> cards;
-    private Random random;
     private Card playedCard;
-    
-    public RandomPlayer() {
-        random = new Random(new Date().getTime());
-    }
-    
     
     public void init(int playerID, GameEngineObserver gameEngineObserver) {
     }
 
     public AbstractJassType selectJassTypeForRound(boolean gschobe) {
-        int anzahl = gschobe ? 6 : 7;
-        
-        switch (random.nextInt(anzahl)) {
+        switch (roundId % 6) {
             case 0:
                 return new ObeAbeJassType();
             case 1:
@@ -55,11 +48,14 @@ public class RandomPlayer implements Player {
     }
 
     public void newRound(int roundId, List<Card> playerCards, AbstractJassType selectedJassType) {
+        this.roundId = roundId;
         this.cards = playerCards;
     }
 
     public Card playCardInTurn(List<Card> alreadyPlayedCars) {
-        playedCard = cards.get(random.nextInt(cards.size()));
+        playerCard++;
+        playerCard = playerCard % cards.size();
+        playedCard = cards.get(playerCard);
         return playedCard;
     }
 
@@ -67,7 +63,7 @@ public class RandomPlayer implements Player {
     }
 
     public void turnFinished(List<Card> cardsPlayed, int wonByPlayer) {
-        cards.remove(playedCard);
+        cardsPlayed.remove(playedCard);
     }
 
     public void roundFinished(int pointMadeByTeam) {
@@ -75,6 +71,6 @@ public class RandomPlayer implements Player {
     
     @Override
     public String toString() {
-        return "RandomPlayer";
+        return "OneByOne";
     }
 }
