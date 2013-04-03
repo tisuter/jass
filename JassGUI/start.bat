@@ -1,0 +1,1 @@
+java -jar JassGUI-1.0-SNAPSHOT.jar > output.txt
